@@ -2,7 +2,7 @@
 export default function Home() {
   return (
     <>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores, eius.</p>
+      <p className=" font-black">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores, eius.</p>
     </>
   );
 }

@@ -1,3 +1,5 @@
+import logo from "@/public/logo.svg";
+import Image from "next/image";
 import Link from "next/link";
 
 const Header = () => {
@@ -47,7 +49,9 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-            <a className="btn btn-ghost text-xl">daisyUI</a>
+            <Link href="/" className=" w-64 h-12">
+              <Image src={logo} alt="Logo" className="w-full h-full" />
+            </Link>
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
@@ -73,7 +77,7 @@ const Header = () => {
             </ul>
           </div>
           <div className="navbar-end">
-            <a className="btn">Button</a>
+            <Link href="#">Button</Link>
           </div>
         </div>
       </div>
