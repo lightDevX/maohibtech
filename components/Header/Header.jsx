@@ -31,16 +31,25 @@ const Header = () => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow">
                 <li>
-                  <Link href="#">Item 1</Link>
+                  <Link href="#"></Link>
                 </li>
                 <li>
-                  <Link href="#">Parent</Link>
+                  <Link href="#">Services</Link>
                   <ul className="p-2">
                     <li>
-                      <Link href="#">Submenu 1</Link>
+                      <Link href="#">Website Development</Link>
                     </li>
                     <li>
-                      <Link href="#">Submenu 2</Link>
+                      <Link href="#">Website Optimization</Link>
+                    </li>
+                    <li>
+                      <Link href="/seo">Search Engine Optimization (SEO)</Link>
+                    </li>
+                    <li>
+                      <Link href="/platform-migration">Platform Migration</Link>
+                    </li>
+                    <li>
+                      <Link href="/web-design">Creative Web Design</Link>
                     </li>
                   </ul>
                 </li>
@@ -60,13 +69,22 @@ const Header = () => {
               </li>
               <li>
                 <details>
-                  <summary>Parent</summary>
-                  <ul className="p-2">
+                  <summary>Services</summary>
+                  <ul className="p-1 w-64">
                     <li>
-                      <Link href="#">Submenu 1</Link>
+                      <Link href="#">Website Development</Link>
                     </li>
                     <li>
-                      <Link href="#">Submenu 2</Link>
+                      <Link href="#">Website Optimization</Link>
+                    </li>
+                    <li>
+                      <Link href="/seo">Search Engine Optimization (SEO)</Link>
+                    </li>
+                    <li>
+                      <Link href="/platform-migration">Platform Migration</Link>
+                    </li>
+                    <li>
+                      <Link href="/web-design">Creative Web Design</Link>
                     </li>
                   </ul>
                 </details>
@@ -77,7 +95,7 @@ const Header = () => {
             </ul>
           </div>
           <div className="navbar-end">
-            <Link href="#">Button</Link>
+            <Link href="/contact">Contact</Link>
           </div>
         </div>
       </div>
