@@ -70,12 +70,14 @@ const Header = () => {
               <li>
                 <details>
                   <summary>Services</summary>
-                  <ul className="p-1 w-64">
+                  <ul className="p-1 w-64 bg-blue-600 z-0">
                     <li>
-                      <Link href="#">Website Development</Link>
+                      <Link href="/web-development">Website Development</Link>
                     </li>
                     <li>
-                      <Link href="#">Website Optimization</Link>
+                      <Link href="/website-optimization">
+                        Website Optimization
+                      </Link>
                     </li>
                     <li>
                       <Link href="/seo">Search Engine Optimization (SEO)</Link>
