@@ -1,128 +1,107 @@
 "use client";
-
-import { useActionState } from "react";
-
-export default function AddressForm() {
-  const [state, action, isPending] = useActionState("");
-
+import { sendMail } from "@/lib/send-mail";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+const contactFormSchema = z.object({
+  name: z.min(2, { message: "Please Enter Your Name" }),
+  email: z.email({ message: "Please Enter a Valid Email Address" }),
+  message: z.min(10, {
+    message: "Please make sure your message is at least 10 characters long.",
+  }),
+});
+export default function ContactForm() {
+  const form =
+    useForm <
+    z.infer <
+    typeof contactFormSchema >>
+      {
+        resolver: zodResolver(contactFormSchema),
+        defaultValues: {
+          name: "",
+          email: "",
+          message: "",
+        },
+      };
+  const isLoading = form.formState.isSubmitting;
+  const onSubmit = async (values) => {
+    const mailText = `Name: ${values.name}\n  Email: ${values.email}\nMessage: ${values.message}`;
+    const response = await sendMail({
+      email: values.email,
+      subject: "New Contact Us Form",
+      text: mailText,
+    });
+    if (response?.messageId) {
+      toast.success("Application Submitted Successfully.");
+    } else {
+      toast.error("Failed To send application.");
+    }
+  };
   return (
-    <Card className="w-full max-w-lg mx-auto">
-      <CardHeader>
-        <CardTitle>Address Information</CardTitle>
-        <CardDescription>
-          Please enter your shipping address details below.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action={action} className="space-y-6">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="streetAddress">Street Address</Label>
-              <Input
-                id="streetAddress"
-                name="streetAddress"
-                placeholder="123 Main St"
-                aria-describedby="streetAddress-error"
-                className={state?.errors?.streetAddress ? "border-red-500" : ""}
-              />
-              {state?.errors?.streetAddress && (
-                <p id="streetAddress-error" className="text-sm text-red-500">
-                  {state.errors.streetAddress[0]}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="apartment">Apartment/Suite (Optional)</Label>
-              <Input
-                id="apartment"
-                name="apartment"
-                placeholder="Apt 4B"
-                aria-describedby="apartment-error"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="city">City</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  placeholder="New York"
-                  aria-describedby="city-error"
-                  className={state?.errors?.city ? "border-red-500" : ""}
-                />
-                {state?.errors?.city && (
-                  <p id="city-error" className="text-sm text-red-500">
-                    {state.errors.city[0]}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="state">State</Label>
-                <Input
-                  id="state"
-                  name="state"
-                  placeholder="NY"
-                  aria-describedby="state-error"
-                  className={state?.errors?.state ? "border-red-500" : ""}
-                />
-                {state?.errors?.state && (
-                  <p id="state-error" className="text-sm text-red-500">
-                    {state.errors.state[0]}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="zipCode">ZIP Code</Label>
-                <Input
-                  id="zipCode"
-                  name="zipCode"
-                  placeholder="10001"
-                  aria-describedby="zipCode-error"
-                  className={state?.errors?.zipCode ? "border-red-500" : ""}
-                />
-                {state?.errors?.zipCode && (
-                  <p id="zipCode-error" className="text-sm text-red-500">
-                    {state.errors.zipCode[0]}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="country">Country</Label>
-                <Input
-                  id="country"
-                  name="country"
-                  placeholder="United States"
-                  aria-describedby="country-error"
-                  className={state?.errors?.country ? "border-red-500" : ""}
-                />
-                {state?.errors?.country && (
-                  <p id="country-error" className="text-sm text-red-500">
-                    {state.errors.country[0]}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {state?.message && (
-            <Alert variant={state.success ? "default" : "destructive"}>
-              <AlertDescription>{state.message}</AlertDescription>
-            </Alert>
-          )}
-
-          <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? "Saving..." : "Save Address"}
+    <Form {...form}>
+      <form
+        className="grid grid-cols-3 items-center p-4 lg:p-6"
+        onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="col-span-3 flex flex-col gap-4 lg:col-span-3 lg:gap-6">
+          <h2 className="lg:text-xl">Enter Your Good Name Here:</h2>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <h2 className="lg:text-xl">Enter Your Email Address:</h2>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="john@example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <h2 className="lg:text-xl">Enter Your Message Here:</h2>
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="My question is which framework do you prefer to use?"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={isLoading}>
+            {isLoading ? "Sending....." : "Send"}
           </Button>
-        </form>
-      </CardContent>
-    </Card>
+        </div>
+      </form>
+    </Form>
   );
 }
 
