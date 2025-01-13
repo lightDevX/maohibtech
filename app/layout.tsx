@@ -1,3 +1,4 @@
+import Header from "@/components/Header/Header";
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
@@ -21,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.variable} antialiased`}>
-        <main className="container mx-auto">{children}</main>
+        <main className="container mx-auto">
+          <Header />
+          {children}
+        </main>
       </body>
     </html>
   );
