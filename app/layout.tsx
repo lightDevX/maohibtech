@@ -22,10 +22,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.variable} antialiased`}>
-        <main className="container mx-auto">
-          <Header />
-          {children}
-        </main>
+        <Header />
+        <main className="container mx-auto">{children}</main>
       </body>
     </html>
   );

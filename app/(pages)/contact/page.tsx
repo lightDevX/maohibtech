@@ -29,7 +29,7 @@ const contact = () => {
             <span className="w-5 h-5">
               <EnvelopeIcon />
             </span>
-            hello@example.com
+            hello@maohibtech.com
           </p>
         </div>
         <div className="contact-form">
