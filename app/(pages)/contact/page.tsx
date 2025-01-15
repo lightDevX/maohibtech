@@ -1,3 +1,4 @@
+import ContactForm from "@/components/ContactForm/ContactForm";
 import { EnvelopeIcon, HomeIcon, PhoneIcon } from "@heroicons/react/16/solid";
 
 const contact = () => {
@@ -33,7 +34,9 @@ const contact = () => {
           </p>
         </div>
         <div className="contact-form">
-          <div></div>
+          <div>
+            <ContactForm />
+          </div>
         </div>
       </div>
     </div>
