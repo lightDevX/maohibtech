@@ -1,6 +1,12 @@
 import logo from "@/public/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  NavigationMenu,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "../ui/navigation-menu";
 import NavBar from "./NavBar";
 
 const Header = () => {
@@ -19,11 +25,19 @@ const Header = () => {
               />
             </Link>
           </div>
-          <div className=" justify-self-center">
+          <div className="justify-self-center">
             <NavBar />
           </div>
-          <div className=" justify-self-end">
-            <p>Contact Us</p>
+          <div className="justify-self-end">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <Link href="/contact" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Contact-Us
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
         </div>
       </header>
