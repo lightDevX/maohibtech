@@ -6,9 +6,9 @@ import NavBar from "./NavBar";
 const Header = () => {
   return (
     <>
-      <header className="bg-slate-800">
-        <div className="flex items-center">
-          <div className="  w-64 h-16">
+      <header className="bg-red-800">
+        <div className="grid grid-cols-3 items-center">
+          <div className="w-64 h-16 justify-self-start">
             <Link href="/">
               <Image
                 src={logo}
@@ -19,9 +19,12 @@ const Header = () => {
               />
             </Link>
           </div>
-          <nav className="">
+          <div className=" justify-self-center">
             <NavBar />
-          </nav>
+          </div>
+          <div className=" justify-self-end">
+            <p>Contact Us</p>
+          </div>
         </div>
       </header>
     </>
