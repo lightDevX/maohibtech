@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { submitEmail } from "@/app/api/actions/contact";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -19,54 +18,15 @@ const initialState: ActionResponse = {
 const ContactForm = () => {
   const [state, action, isPending] = useActionState(submitEmail, initialState);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    const data = {
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      email: formData.get("email") as string,
-      mobileNumber: formData.get("mobileNumber") as string,
-      city: formData.get("city") as string,
-      state: formData.get("state") as string,
-      zipCode: formData.get("zipCode") as string,
-      country: formData.get("country") as string,
-      messageQuery: formData.get("messageQuery") as string,
-    };
-
-    try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        action({ success: true, message: "Your message has been sent!" });
-      } else {
-        action({
-          success: false,
-          message: "There was an error sending your message.",
-        });
-      }
-    } catch (error) {
-      action({
-        success: false,
-        message: "There was an error sending your message.",
-      });
-    }
-  };
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <>
       <Card>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6" autoComplete="on">
+          <form action={action} className="space-y-6" autoComplete="on">
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
