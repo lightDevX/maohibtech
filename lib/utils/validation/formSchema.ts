@@ -1,7 +1,7 @@
+import { ActionResponse, ContactFormData } from "@/lib/types/contact";
 import { z } from "zod";
-import type { ActionResponse, ContactFormData } from "../types/address";
 
-const addressSchema = z.object({
+const formSchema = z.object({
   firstName: z.string().min(5, { message: "First Name is required" }),
   lastName: z.string().min(5, { message: "Last Name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
@@ -19,10 +19,10 @@ const addressSchema = z.object({
     .min(10, { message: "Message must be at least 10 characters" }),
 });
 
-export async function submitEmail(
+export async function formSchemaData(
   prevState: ActionResponse | null,
   formData: FormData
-): Promise<ActionResponse> {
+): Promise<ActionRespons> {
   const rawData: ContactFormData = {
     firstName: formData.get("firstName") as string,
     lastName: formData.get("lastName") as string,
@@ -35,7 +35,7 @@ export async function submitEmail(
     messageQuery: formData.get("messageQuery") as string,
   };
 
-  const validatedData = addressSchema.safeParse(rawData);
+  const validatedData = formSchema.safeParse(rawData);
 
   if (!validatedData.success) {
     return {

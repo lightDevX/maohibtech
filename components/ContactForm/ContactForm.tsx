@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ContactFormData } from "@/lib/types/contact";
+import { formSchemaData } from "@/lib/utils/validation/formSchema";
 import { useForm } from "react-hook-form";
 import { Card, CardContent } from "../ui/card";
 import { Textarea } from "../ui/textarea";
@@ -13,10 +14,16 @@ import { Textarea } from "../ui/textarea";
 // };
 
 const ContactForm = () => {
-  const { register, handleSubmit } = useForm<ContactFormData>();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormData>(formSchemaData);
 
   const onSubmit = async (formData: ContactFormData) => {
     console.log(formData);
+    reset();
   };
 
   return (
@@ -41,7 +48,13 @@ const ContactForm = () => {
                     autoComplete="first-name"
                     aria-describedby="firstName-error"
                     {...register("firstName")}
+                    className={errors?.firstName ? "border-red-500" : ""}
                   />
+                  {errors?.firstName && (
+                    <span id="firstName-error" className="text-sm text-red-500">
+                      {errors.firstName.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -56,7 +69,13 @@ const ContactForm = () => {
                     autoComplete="last-name"
                     aria-describedby="lastName-error"
                     {...register("lastName")}
+                    className={errors?.lastName ? "border-red-500" : ""}
                   />
+                  {errors?.lastName && (
+                    <span id="lastName-error" className="text-sm text-red-500">
+                      {errors.lastNamefirstName.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="space-y-2">
@@ -70,7 +89,13 @@ const ContactForm = () => {
                   autoComplete="email-address"
                   aria-describedby="email-error"
                   {...register("email")}
+                  className={errors?.email ? "border-red-500" : ""}
                 />
+                {errors?.email && (
+                  <span id="email-error" className="text-sm text-red-500">
+                    {errors.emailfirstName.message}
+                  </span>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -84,7 +109,15 @@ const ContactForm = () => {
                   autoComplete="mobile-number"
                   aria-describedby="mobileNumber-error"
                   {...register("mobileNumber")}
+                  className={errors?.mobileNumber ? "border-red-500" : ""}
                 />
+                {errors?.mobileNumber && (
+                  <span
+                    id="mobileNumber-error"
+                    className="text-sm text-red-500">
+                    {errors.mobileNumberfirstName.message}
+                  </span>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -100,7 +133,13 @@ const ContactForm = () => {
                     autoComplete="address-level2"
                     aria-describedby="city-error"
                     {...register("city")}
+                    className={errors?.city ? "border-red-500" : ""}
                   />
+                  {errors?.city && (
+                    <span id="city-error" className="text-sm text-red-500">
+                      {errors.cityfirstName.message}
+                    </span>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -115,7 +154,13 @@ const ContactForm = () => {
                     autoComplete="address-level1"
                     aria-describedby="state-error"
                     {...register("state")}
+                    className={errors?.state ? "border-red-500" : ""}
                   />
+                  {errors?.state && (
+                    <span id="state-error" className="text-sm text-red-500">
+                      {errors.statefirstName.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -132,7 +177,13 @@ const ContactForm = () => {
                     autoComplete="postal-code"
                     aria-describedby="zipCode-error"
                     {...register("zipCode")}
+                    className={errors?.zipCode ? "border-red-500" : ""}
                   />
+                  {errors?.zipCode && (
+                    <span id="zipCode-error" className="text-sm text-red-500">
+                      {errors.zipCodefirstName.message}
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="country">Country</Label>
@@ -146,7 +197,13 @@ const ContactForm = () => {
                     autoComplete="country-name"
                     aria-describedby="country-error"
                     {...register("country")}
+                    className={errors?.country ? "border-red-500" : ""}
                   />
+                  {errors?.country && (
+                    <span id="country-error" className="text-sm text-red-500">
+                      {errors.countryfirstName.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -162,11 +219,19 @@ const ContactForm = () => {
                   autoComplete="messageQuery-name"
                   aria-describedby="messageQuery-error"
                   {...register("messageQuery")}
+                  className={errors?.messageQuery ? "border-red-500" : ""}
                 />
+                {errors?.messageQuery && (
+                  <span
+                    id="messageQuery-error"
+                    className="text-sm text-red-500">
+                    {errors.messageQueryfirstName.message}
+                  </span>
+                )}
               </div>
             </div>
-            <Button type="submit" className="w-full">
-              Submit
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting...." : "Submit"}
             </Button>
           </form>
         </CardContent>
