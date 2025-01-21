@@ -3,27 +3,51 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ContactFormData } from "@/lib/types/contact";
-import { formSchemaData } from "@/lib/utils/validation/formSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { Card, CardContent } from "../ui/card";
 import { Textarea } from "../ui/textarea";
 
-// const initialState: ActionResponse = {
-//   success: false,
-//   message: "",
-// };
+const formSchema = z.object({
+  firstName: z.string().min(2, "First Name is required"),
+  lastName: z.string().min(2, "Last Name is required"),
+  email: z.string().email("Invalid email address"),
+  mobileNumber: z.string().regex(/^\+?\d{8,20}$/, "Invalid mobile number"),
+  city: z.string().min(2, "City is required"),
+  state: z.string().min(2, "State is required"),
+  zipCode: z.string().regex(/^\d{5}(-\d{4})?$/, "Invalid ZIP code format"),
+  country: z.string().min(2, "Country is required"),
+  messageQuery: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type ContactFormData = z.infer<typeof formSchema>;
 
 const ContactForm = () => {
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ContactFormData>(formSchemaData);
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(formSchema),
+  });
 
-  const onSubmit = async (formData: ContactFormData) => {
-    console.log(formData);
-    reset();
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (result.success) alert(result.message);
+      else alert(result.message);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      reset();
+    }
   };
 
   return (
@@ -73,7 +97,7 @@ const ContactForm = () => {
                   />
                   {errors?.lastName && (
                     <span id="lastName-error" className="text-sm text-red-500">
-                      {errors.lastNamefirstName.message}
+                      {errors.lastName.message}
                     </span>
                   )}
                 </div>
@@ -93,7 +117,7 @@ const ContactForm = () => {
                 />
                 {errors?.email && (
                   <span id="email-error" className="text-sm text-red-500">
-                    {errors.emailfirstName.message}
+                    {errors.email.message}
                   </span>
                 )}
               </div>
@@ -115,7 +139,7 @@ const ContactForm = () => {
                   <span
                     id="mobileNumber-error"
                     className="text-sm text-red-500">
-                    {errors.mobileNumberfirstName.message}
+                    {errors.mobileNumber.message}
                   </span>
                 )}
               </div>
@@ -137,7 +161,7 @@ const ContactForm = () => {
                   />
                   {errors?.city && (
                     <span id="city-error" className="text-sm text-red-500">
-                      {errors.cityfirstName.message}
+                      {errors.city.message}
                     </span>
                   )}
                 </div>
@@ -158,7 +182,7 @@ const ContactForm = () => {
                   />
                   {errors?.state && (
                     <span id="state-error" className="text-sm text-red-500">
-                      {errors.statefirstName.message}
+                      {errors.state.message}
                     </span>
                   )}
                 </div>
@@ -181,7 +205,7 @@ const ContactForm = () => {
                   />
                   {errors?.zipCode && (
                     <span id="zipCode-error" className="text-sm text-red-500">
-                      {errors.zipCodefirstName.message}
+                      {errors.zipCode.message}
                     </span>
                   )}
                 </div>
@@ -201,7 +225,7 @@ const ContactForm = () => {
                   />
                   {errors?.country && (
                     <span id="country-error" className="text-sm text-red-500">
-                      {errors.countryfirstName.message}
+                      {errors.country.message}
                     </span>
                   )}
                 </div>
@@ -225,7 +249,7 @@ const ContactForm = () => {
                   <span
                     id="messageQuery-error"
                     className="text-sm text-red-500">
-                    {errors.messageQueryfirstName.message}
+                    {errors.messageQuery.message}
                   </span>
                 )}
               </div>
