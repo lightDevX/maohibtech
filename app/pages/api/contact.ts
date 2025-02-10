@@ -1,18 +1,11 @@
-"use server";
+import { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
-      secure: false, // true for port 465
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
     const {
       firstName,
       lastName,
@@ -25,6 +18,18 @@ export default async function handler(req, res) {
       messageQuery,
     } = req.body;
 
+    // Configure Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: false, // Use `true` for port 465
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
@@ -44,16 +49,16 @@ export default async function handler(req, res) {
     };
 
     try {
+      // Send email
       await transporter.sendMail(mailOptions);
-      return res
+      res
         .status(200)
         .json({ success: true, message: "Your message has been sent!" });
     } catch (error) {
       console.error("Error sending email:", error);
-      return res.status(500).json({
-        success: false,
-        message: "There was an error sending the email.",
-      });
+      res
+        .status(500)
+        .json({ success: false, message: "Failed to send message." });
     }
   } else {
     res.status(405).json({ success: false, message: "Method Not Allowed" });
