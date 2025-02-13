@@ -3,8 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Card, CardContent } from "../ui/card";
 import { Textarea } from "../ui/textarea";
@@ -26,35 +24,35 @@ const formSchema = z.object({
 type ContactFormData = z.infer<typeof formSchema>;
 
 const ContactForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(formSchema),
-  });
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors, isSubmitting },
+  //   reset,
+  // } = useForm<ContactFormData>({
+  //   resolver: zodResolver(formSchema),
+  // });
 
-  const onSubmit = async (data: ContactFormData) => {
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+  // const onSubmit = async (data: ContactFormData) => {
+  //   try {
+  //     const response = await fetch("/api/contact", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(data),
+  //     });
 
-      const result = await response.json();
-      if (result.success) {
-        alert(result.message);
-        reset();
-      } else {
-        alert(result.message);
-      }
-    } catch (err) {
-      console.error("Submission error:", err);
-      alert("An error occurred while submitting the form.");
-    }
-  };
+  //     const result = await response.json();
+  //     if (result.success) {
+  //       alert(result.message);
+  //       reset();
+  //     } else {
+  //       alert(result.message);
+  //     }
+  //   } catch (err) {
+  //     console.error("Submission error:", err);
+  //     alert("An error occurred while submitting the form.");
+  //   }
+  // };
 
   return (
     <Card>
