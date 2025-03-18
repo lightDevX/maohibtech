@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Apple",
+    "color": "Red",
+    "taste": "Sweet",
+    "price": 2.5
+  },
+  {
+    "id": 2,
+    "name": "Banana",
+    "color": "Yellow",
+    "taste": "Sweet",
+    "price": 1.2
+  },
+  {
+    "id": 3,
+    "name": "Grape",
+    "color": "Purple",
+    "taste": "Sweet and Sour",
+    "price": 3.0
+  },
+  {
+    "id": 4,
+    "name": "Lemon",
+    "color": "Yellow",
+    "taste": "Sour",
+    "price": 1.0
+  },
+  {
+    "id": 5,
+    "name": "Orange",
+    "color": "Orange",
+    "taste": "Sweet and Sour",
+    "price": 1.5
+  },
+  {
+    "id": 6,
+    "name": "Pineapple",
+    "color": "Yellow",
+    "taste": "Sweet and Tangy",
+    "price": 5.0
+  }
+]
